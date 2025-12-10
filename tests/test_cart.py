@@ -2,6 +2,8 @@ from selenium.webdriver.common.by import By
 from selenium import webdriver
 import pytest
 
+from pages.login_page import LoginPage
+
 from pages.inventory_page import InventoryPage
 from pages.cart_page import CartPage
 
@@ -9,6 +11,9 @@ from pages.cart_page import CartPage
 def test_cart(login_in_driver,usuario,password):
     try:
         driver = login_in_driver
+        
+        LoginPage(driver).login_completo(usuario,password)
+
         inventory_page = InventoryPage(driver)
 
         # Agregar al carrito el producto
@@ -21,10 +26,9 @@ def test_cart(login_in_driver,usuario,password):
         cartPage = CartPage(driver)
         
         productos_en_carrito = cartPage.obtener_productos_carrito()
-        assert len(productos_en_carrito) == 1
+        assert len(productos_en_carrito) == 50
+        #assert False, "Fallo de prueba forzado"
 
     except Exception as e:
         print(f"Error en test_cart: {e}")
         raise
-    finally:
-        driver.quit()
