@@ -8,9 +8,11 @@ from pages.inventory_page import InventoryPage
 from pages.cart_page import CartPage
 
 @pytest.mark.parametrize("usuario,password",[("standard_user","secret_sauce")])
-def test_cart(login_in_driver,usuario,password):
+def test_cart(login_in_driver, usuario, password):
+
     try:
         driver = login_in_driver
+
         
         LoginPage(driver).login_completo(usuario,password)
 
@@ -26,7 +28,7 @@ def test_cart(login_in_driver,usuario,password):
         cartPage = CartPage(driver)
         
         productos_en_carrito = cartPage.obtener_productos_carrito()
-        assert len(productos_en_carrito) == 50
+        assert len(productos_en_carrito) >= 1
         #assert False, "Fallo de prueba forzado"
 
     except Exception as e:

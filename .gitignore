@@ -1,0 +1,17 @@
+# Virtual environment
+.venv/
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Pytest cache
+.pytest_cache/
+
+# Reports (оставляем папку, но не содержимое)
+reports/*
+!reports/.gitkeep
+
+# OS / Editor
+.DS_Store
+.vscode/

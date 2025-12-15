@@ -1,59 +1,117 @@
-# Proyecto de Talento Tech
+# Framework de Automatización de Pruebas
 
-## Proposito del proyecto
-Este proyecto tiene como objetivo automatizar pruebas de UI y de API para el sitio **SauceDemo**, aplicando practicas como Page Object Model, manejo de datos externos, generacion de reportes HTML, logging y captura automatica de pantalla.
+## Propósito del Proyecto
+Este proyecto consiste en el desarrollo de un framework de automatización de pruebas en Python, integrando pruebas de UI con Selenium WebDriver y pruebas de API utilizando la librería Requests.
+El objetivo es aplicar buenas prácticas de automatización, el patrón Page Object Model (POM) y generar reportes automáticos claros, reutilizables y fáciles de interpretar.
 
-## Tecnologias utilizadas
-- Python 3.x
+---
+
+## Tecnologías Utilizadas
+- Python 3
 - Pytest
 - Selenium WebDriver
-- Logging
+- Requests
 - Faker
-- CSV / JSON
-- Request
+- Git / GitHub
+- Pytest HTML Report
 
-## Reportes y Logs
+---
 
-El proyecto genera tres tipos principales de resultados durante la ejecucion de las prubas: **reporte HTML**, **capturas de pantalla**, **archivo de log**
+## Tipos de Pruebas Implementadas
+
+### Pruebas de UI (Selenium WebDriver)
+- Login válido
+- Login inválido (escenario negativo)
+- Navegación por inventario
+- Agregar productos al carrito
+- Validación del carrito
+- Prueba smoke (apertura del navegador)
+
+Las pruebas de UI utilizan el patrón **Page Object Model (POM)** para separar la lógica de las pruebas de la lógica de interacción con la interfaz, facilitando el mantenimiento y la escalabilidad del proyecto.
+
+---
+
+### Pruebas de API (Requests)
+- Pruebas sobre API pública (ReqRes)
+- Métodos HTTP utilizados: GET, POST y DELETE
+- Validación de códigos de estado HTTP
+- Validación de estructura y contenido de las respuestas JSON
+- Algunas pruebas se marcan como **SKIPPED** cuando se requiere API Key, manteniendo el flujo de ejecución estable
+
+---
+
+## Reportes, Logs y Evidencias
 
 ### Reporte HTML
-Se genera un reporte HTML detallado con el nombre de ```reporte.hmtl``` en la **carpeta raiz** del proyecto
+El framework genera un reporte HTML detallado utilizando Pytest con el siguiente comando:
 
-### Logs de ejecución
-Tambien se genera un log con informacion detallada de toda la ejecución de las pruebas en la siguiente ubicacion: ```logs/suite.log```
+pytest -v --html=reports/report.html --self-contained-html
 
-### Capturas de pantalla
+El reporte incluye:
+- Lista de tests ejecutados
+- Estado de cada test (PASSED / FAILED / SKIPPED)
+- Tiempo de ejecución
+- Información detallada de cada caso
+- Evidencias visuales cuando ocurre un fallo
 
-Se realizan capturas de pantalla por cada test que haya fallado y se encuentran en la siguiente ubicacion: ```reports/screens/```
+El archivo generado se encuentra en:
+reports/report.html
 
-## Ejuctar todas las pruebas
-Para iniciar la ejecucion de las pruebas debes ejecutar la siguiente linea:
+---
 
-```bash
-python -m run_test.py
-```
+### Capturas de Pantalla
+- Las capturas se generan automáticamente cuando una prueba falla
+- Se almacenan en el directorio:
+reports/screens/
+- El nombre del archivo incluye el nombre del test y la fecha/hora de ejecución para facilitar el análisis
 
-## ¿Como interpretar los reportes?
-- Al ejecutar `run_test.py`, se genera un archivo HTML en la carpeta raiz.
-- El reporte incluye:
-    - Lista completa de test ejecutados
-    - El estado de cada prueba
-    - La duracion de cada test
-    - Las capturas de pantalla para pruebas fallidas
+---
 
-## Pruebas incluidas
-- Login exitoso y fallido
-- Login exitoso y fallido usando faker
-- Comportamiento de la pagina de inventario
-- Comportamiento de la pagina del carrito
-- API (Reqres): GET users, POST create user, DELETE user, validaciones de codigos HTTP, validaciones de estructura JSON
+### Ejecutar todas las pruebas
+pytest -v
 
-## Manejo de datos de prueba
-- En la carpeta `datos` se incluyen archivos como:
-    - `data_login.csv` -> datos de usuarios validos o invalidos
-    - `productos.json` -> datos de productos para validacion
+### Ejecutar una prueba específica
+pytest tests/test_login.py -v
 
-### Conclusion
-Este proyecto ofrece una estructura organizada y escalable para automatizar pruebas de API utilizando Python y Pytest. Incluye un flujo simple de ejeucion mediante `run_test.py`, generacion automatica de reporte HTML facilitando el analisis de las pruebas.
+---
 
-La arquitectura del proyecto esta pensada para agregar nuevos casos de prueba y configuraciones sin modificar el nucleo del proyecto, manteniendo buenas practicas y permitiendo su escalabilidad en el tiempo.
+## Interpretación de Resultados
+- PASSED: el test se ejecutó correctamente
+- FAILED: ocurrió un error funcional o técnico (se genera automáticamente una captura de pantalla)
+- SKIPPED: el test fue omitido por una condición controlada (por ejemplo, falta de API Key)
+
+Los reportes HTML permiten identificar rápidamente los fallos, revisar evidencias y analizar el comportamiento del sistema bajo prueba.
+
+---
+
+## Manejo de Datos de Prueba
+- Uso de @pytest.mark.parametrize para ejecutar pruebas con distintos conjuntos de datos
+- Uso de la librería Faker para generación de datos dinámicos
+- Separación clara entre datos de prueba y lógica de los tests
+
+---
+
+## Archivos y Carpetas Importantes
+- tests/: contiene todos los casos de prueba
+- pages/: implementación del Page Object Model
+- utils/: utilidades y funciones auxiliares
+- reports/: reportes HTML y evidencias
+- reports/screens/: capturas automáticas en fallos
+
+---
+
+## Archivos Excluidos del Repositorio (.gitignore)
+No deben subirse al repositorio los siguientes elementos:
+
+.venv/
+__pycache__/
+.pytest_cache/
+.idea/
+.vscode/
+*.log
+
+---
+
+## Conclusión
+Este framework permite ejecutar pruebas automatizadas de UI y API de forma consistente, mantenible y escalable.
+La estructura del proyecto facilita la incorporación de nuevas pruebas, la reutilización del código y la interpretación clara de los resultados, cumpliendo con los requisitos del proyecto final de automatización de pruebas.
